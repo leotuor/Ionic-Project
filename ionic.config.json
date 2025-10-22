@@ -1,0 +1,8 @@
+{
+  "name": "testeIonic",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue-vite",
+  "id": "2418fb19"
+}
