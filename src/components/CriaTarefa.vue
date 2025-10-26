@@ -14,12 +14,40 @@
     <ion-content class="ion-padding">
       <ion-item>
         <ion-input
-          label="Task name"
+          label="Task title"
           label-placement="stacked"
-          v-model="taskName"
+          v-model="taskTitle"
           type="text"
           placeholder="Your task"
         ></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-select
+          label="Category" 
+          placeholder="Select the category of the task"
+          v-model="taskCategory"
+        >
+          <ion-select-option value="work">Trabalho</ion-select-option>
+          <ion-select-option value="study">Estudo</ion-select-option>
+          <ion-select-option value="personal">Pessoal</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-select
+          label="Priority" 
+          placeholder="Select the priority of the task"
+          v-model="taskPriority"
+        >
+          <ion-select-option value="low">Baixa</ion-select-option>
+          <ion-select-option value="medium">Média</ion-select-option>
+          <ion-select-option value="high">Alta</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-checkbox v-model="taskCompleted">Is completed</ion-checkbox>
       </ion-item>
     </ion-content>
   </ion-modal>
@@ -36,7 +64,12 @@ import {
   IonContent,
   IonItem,
   IonInput,
+  IonSelect,
+  IonSelectOption,
+  IonCheckbox,
 } from '@ionic/vue';
+
+import TaskService from '../services/TaskService';
 
 export default {
   name: 'cria-tarefa',
@@ -50,6 +83,9 @@ export default {
     IonContent,
     IonItem,
     IonInput,
+    IonSelect,
+    IonSelectOption,
+    IonCheckbox,
   },
   props: {
     isOpen: {
@@ -65,11 +101,6 @@ export default {
     }
   },
   emits: ['on-dismiss', 'on-confirm'],
-  data() {
-    return {
-      taskName: '',
-    };
-  },
   methods: {
     onWillDismiss() {
       this.$emit('on-dismiss');
@@ -78,8 +109,20 @@ export default {
       this.$emit('on-dismiss');
     },
     confirm() {
-      this.$emit('on-confirm', this.taskName);
-      this.taskName = '';
+      this.$emit('on-confirm');
+
+      TaskService.save({
+        id: Math.floor(Math.random() * 1000000),
+        title: this.taskTitle,
+        category: this.taskCategory,
+        priority: this.taskPriority,
+        completed: this.taskCompleted,
+      });
+
+      this.taskTitle = '';
+      this.taskPriority = '';
+      this.taskCompleted = '';
+      this.taskCategory = '';
     },
   },
 };

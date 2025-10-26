@@ -20,6 +20,7 @@ class TaskService {
     const tasks = this.getAll();
     const existingTaskIndex = tasks.findIndex((task: Task) => task.id === data.id);
 
+    // If the task exists, update it; otherwise, add a new task
     if (existingTaskIndex !== -1) {
       tasks[existingTaskIndex] = { ...tasks[existingTaskIndex], data };
     } else {
