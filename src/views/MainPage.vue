@@ -11,10 +11,12 @@
           <ion-title size="large">Task list</ion-title>
         </ion-toolbar>
       </ion-header>
+
+      <ion-button>Default</ion-button>
     </ion-content>
   </ion-page>
 </template>
 
 <script setup lang="ts">
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton } from '@ionic/vue';
 </script>

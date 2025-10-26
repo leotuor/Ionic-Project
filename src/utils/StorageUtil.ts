@@ -3,6 +3,10 @@ class StorageUtil {
     localStorage.setItem(key, value);
   }
 
+  static remove = (key: string): void => {
+    localStorage.removeItem(key);
+  }
+
   static load = (key: string): string | null => {
     return localStorage.getItem(key);
   }
