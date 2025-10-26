@@ -98,7 +98,7 @@ export default {
     },
     description: {
       type: String,
-    }
+    },
   },
   emits: ['on-dismiss', 'on-confirm'],
   methods: {

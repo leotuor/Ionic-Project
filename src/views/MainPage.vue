@@ -16,15 +16,41 @@
         :is-open="isModalOpen"
         title="Create New Task"
         @on-confirm="handleConfirm"
-        @ion-modal-did-dismiss="closeModal"
+        @on-dismiss="closeModal"
       ></cria-tarefa>
+      <div v-for="task in tasks">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>{{ task.title }}</ion-card-title>
+            <ion-card-subtitle>{{ task.category }}</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <p>{{ task.priority }}</p>
+            <ion-checkbox v-model="task.completed">Concluída</ion-checkbox>
+          </ion-card-content>
+        </ion-card>
+      </div>
     </ion-content>
   </ion-page>
 </template>
 
 <script setup lang="ts">
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton } from '@ionic/vue';
+import { 
+  IonPage, 
+  IonHeader, 
+  IonToolbar, 
+  IonTitle, 
+  IonContent, 
+  IonButton,
+  IonCard, 
+  IonCardContent, 
+  IonCardHeader, 
+  IonCardSubtitle,
+  IonCheckbox,
+  IonCardTitle
+} from '@ionic/vue';
 import CriaTarefa from '@/components/CriaTarefa.vue';
+import TaskService from '@/services/TaskService';
 </script>
 
 <script lang="ts">
@@ -32,8 +58,14 @@ export default {
   data() {
     return {
       isModalOpen: false,
+      tasks: [],
     };
   },
+
+  created() {
+    this.tasks = TaskService.getAll();
+  },
+
   methods: {
     openModal() {
       this.isModalOpen = true;
@@ -44,6 +76,7 @@ export default {
     handleConfirm(taskName: string) {
       console.log('New task added:', taskName);
       this.closeModal();
+      this.tasks = TaskService.getAll();
     },
   },
 };
