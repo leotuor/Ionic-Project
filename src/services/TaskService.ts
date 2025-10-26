@@ -1,3 +1,4 @@
+import { Task } from "@/entities/Task";
 import StorageUtil from "@/utils/StorageUtil";
 
 class TaskService {
@@ -6,31 +7,31 @@ class TaskService {
     return tasks ? JSON.parse(tasks) : [];
   }
 
-  public static get = (taskId: string) => {
+  public static get = (id: number) => {
     const tasks = this.getAll();
-    return tasks.find((task: any) => task.id === taskId) || null;
+    return tasks.find((task: Task) => task.id === id) || null;
   }
 
-  public static saveAll = (tasks: any[]) => {
-    StorageUtil.save('tasks', JSON.stringify(tasks));
+  public static saveAll = (data: Task[]) => {
+    StorageUtil.save('tasks', JSON.stringify(data));
   }
 
-  public static save = (taskId: string, taskData: any) => {
+  public static save = (data: Task) => {
     const tasks = this.getAll();
-    const existingTaskIndex = tasks.findIndex((task: any) => task.id === taskId);
+    const existingTaskIndex = tasks.findIndex((task: Task) => task.id === data.id);
 
     if (existingTaskIndex !== -1) {
-      tasks[existingTaskIndex] = { ...tasks[existingTaskIndex], ...taskData };
+      tasks[existingTaskIndex] = { ...tasks[existingTaskIndex], data };
     } else {
-      tasks.push({ id: taskId, ...taskData });
+      tasks.push(data);
     }
 
     StorageUtil.save('tasks', JSON.stringify(tasks));
   }
 
-  public static remove = (taskId: string) => {
+  public static remove = (id: number) => {
     const tasks = this.getAll();
-    const filteredTasks = tasks.filter((task: any) => task.id !== taskId);
+    const filteredTasks = tasks.filter((task: Task) => task.id !== id);
     this.saveAll(filteredTasks);
   }
 }
