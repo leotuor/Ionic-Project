@@ -18,18 +18,8 @@
         @on-confirm="handleConfirm"
         @on-dismiss="closeModal"
       ></cria-tarefa>
-      <div v-for="task in tasks">
-        <ion-card>
-          <ion-card-header>
-            <ion-card-title>{{ task.title }}</ion-card-title>
-            <ion-card-subtitle>{{ task.category }}</ion-card-subtitle>
-          </ion-card-header>
-          <ion-card-content>
-            <p>{{ task.priority }}</p>
-            <ion-checkbox v-model="task.completed">Concluída</ion-checkbox>
-          </ion-card-content>
-        </ion-card>
-      </div>
+
+      <task-list :tasks="tasks"></task-list>
     </ion-content>
   </ion-page>
 </template>
@@ -41,15 +31,10 @@ import {
   IonToolbar, 
   IonTitle, 
   IonContent, 
-  IonButton,
-  IonCard, 
-  IonCardContent, 
-  IonCardHeader, 
-  IonCardSubtitle,
-  IonCheckbox,
-  IonCardTitle
+  IonButton
 } from '@ionic/vue';
 import CriaTarefa from '@/components/CriaTarefa.vue';
+import TaskList from '@/components/TaskList.vue';
 import TaskService from '@/services/TaskService';
 </script>
 

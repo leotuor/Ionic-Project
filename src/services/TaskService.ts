@@ -16,6 +16,16 @@ class TaskService {
     StorageUtil.save('tasks', JSON.stringify(data));
   }
 
+  public static toggleCompletion = (id: number) => {
+    const tasks = this.getAll();
+    const taskIndex = tasks.findIndex((task: Task) => task.id === id);
+
+    if (taskIndex !== -1) {
+      tasks[taskIndex].completed = !tasks[taskIndex].completed;
+      this.saveAll(tasks);
+    }
+  }
+
   public static save = (data: Task) => {
     const tasks = this.getAll();
     const existingTaskIndex = tasks.findIndex((task: Task) => task.id === data.id);
