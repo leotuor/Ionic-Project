@@ -5,10 +5,6 @@ import MainPage from '../views/MainPage.vue';
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    redirect: '/tabs'
-  },
-  {
-    path: '/tabs',
     component: MainPage,
   }
 ]
