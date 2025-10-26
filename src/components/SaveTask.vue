@@ -72,7 +72,7 @@ import {
 import TaskService from '../services/TaskService';
 
 export default {
-  name: 'cria-tarefa',
+  name: 'save-task',
   components: {
     IonModal,
     IonHeader,

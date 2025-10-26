@@ -11,13 +11,15 @@
           <ion-title size="large">Task list</ion-title>
         </ion-toolbar>
       </ion-header>
-      <ion-button @click="openModal">Add Task</ion-button>
-      <cria-tarefa
+
+      <ion-button @click="openModal" class='ion-margin' expand="block">Add task</ion-button>
+
+      <save-task
         :is-open="isModalOpen"
-        title="Create New Task"
+        title="Create new task"
         @on-confirm="handleConfirm"
         @on-dismiss="closeModal"
-      ></cria-tarefa>
+      ></save-task>
 
       <task-list :tasks="tasks"></task-list>
     </ion-content>
@@ -33,7 +35,7 @@ import {
   IonContent, 
   IonButton
 } from '@ionic/vue';
-import CriaTarefa from '@/components/CriaTarefa.vue';
+import SaveTask from '@/components/SaveTask.vue';
 import TaskList from '@/components/TaskList.vue';
 import TaskService from '@/services/TaskService';
 </script>
