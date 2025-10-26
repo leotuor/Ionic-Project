@@ -1,21 +1,21 @@
 import StorageUtil from "@/utils/StorageUtil";
 
 class TaskService {
-  public getAll = () => {
+  public static getAll = () => {
     const tasks = StorageUtil.load('tasks');
     return tasks ? JSON.parse(tasks) : [];
   }
 
-  public get = (taskId: string) => {
+  public static get = (taskId: string) => {
     const tasks = this.getAll();
     return tasks.find((task: any) => task.id === taskId) || null;
   }
 
-  public saveAll = (tasks: any[]) => {
+  public static saveAll = (tasks: any[]) => {
     StorageUtil.save('tasks', JSON.stringify(tasks));
   }
 
-  public save = (taskId: string, taskData: any) => {
+  public static save = (taskId: string, taskData: any) => {
     const tasks = this.getAll();
     const existingTaskIndex = tasks.findIndex((task: any) => task.id === taskId);
 
@@ -28,7 +28,7 @@ class TaskService {
     StorageUtil.save('tasks', JSON.stringify(tasks));
   }
 
-  public remove = (taskId: string) => {
+  public static remove = (taskId: string) => {
     const tasks = this.getAll();
     const filteredTasks = tasks.filter((task: any) => task.id !== taskId);
     this.saveAll(filteredTasks);
