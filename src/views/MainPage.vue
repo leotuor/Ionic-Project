@@ -17,7 +17,7 @@
       <save-task
         :is-open="isModalOpen"
         title="Create new task"
-        @on-confirm="updateTasks"
+        @on-confirm="handlePersist"
         @on-dismiss="closeModal"
       ></save-task>
 
@@ -25,6 +25,7 @@
         :tasks="tasks"
         @on-toggle="handleToggle"
         @on-delete="handleDelete"
+        @on-edit="handlePersist"
       ></task-list>
     </ion-content>
   </ion-page>
@@ -64,7 +65,7 @@ export default {
     closeModal() {
       this.isModalOpen = false;
     },
-    updateTasks() {
+    handlePersist() {
       this.tasks = TaskService.getAll();
       this.closeModal();
     },

@@ -11,9 +11,9 @@
           <ion-card-content>
             <ion-label>{{ task.priority }}</ion-label>
             <ion-item lines="none">
-              <ion-checkbox slot="start" :checked="task.completed" @click="persist(task.id)"></ion-checkbox>
+              <ion-checkbox slot="start" :checked="task.completed" @click="toggleItem(task.id)"></ion-checkbox>
               <ion-buttons slot="end">
-                <ion-button>
+                <ion-button @click="openEditModal(task)">
                   <ion-icon slot="icon-only" :icon="pencilOutline"></ion-icon>
                 </ion-button>
                 <ion-button @click="deleteItem(task.id)">
@@ -26,6 +26,14 @@
       </ion-col>
     </ion-row>
   </ion-grid>
+
+  <save-task
+    :is-open="isEditModalOpen"
+    title="Edit Task"
+    :task="taskToEdit"
+    @on-confirm="handleEditConfirm"
+    @on-dismiss="closeEditModal"
+  ></save-task>
 </template>
 
 <script>
@@ -45,17 +53,16 @@ import {
   IonButtons,
   IonButton
 } from '@ionic/vue';
+import SaveTask from './SaveTask.vue';
 
 import {
   trashOutline,
   pencilOutline,
 } from 'ionicons/icons';
 
-
-import TaskService from '../services/TaskService';
-
 export default {
   name: 'task-list',
+  emits: ['on-toggle', 'on-delete', 'on-edit'],
   components: {
     IonCard,
     IonCardContent,
@@ -63,6 +70,7 @@ export default {
     IonCardSubtitle,
     IonCheckbox,
     IonCardTitle,
+    SaveTask,
     IonIcon,
     IonGrid,
     IonRow,
@@ -84,12 +92,30 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+      isEditModalOpen: false,
+      taskToEdit: null,
+    };
+  },
   methods: {
     toggleItem(taskId) {
       this.$emit('on-toggle', taskId);
     },
     deleteItem(taskId) {
       this.$emit('on-delete', taskId);
+    },
+    openEditModal(task) {
+      this.isEditModalOpen = true;
+      this.taskToEdit = task;
+    },
+    closeEditModal() {
+      this.isEditModalOpen = false;
+      this.taskToEdit = null;
+    },
+    handleEditConfirm(updatedTask) {
+      this.$emit('on-edit', updatedTask);
+      this.closeEditModal();
     },
   },
 };

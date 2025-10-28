@@ -99,8 +99,34 @@ export default {
     description: {
       type: String,
     },
+    task: {
+      type: Object,
+      default: null,
+    },
   },
   emits: ['on-dismiss', 'on-confirm'],
+  data() {
+    return {
+      taskTitle: '',
+      taskCategory: '',
+      taskPriority: '',
+      taskCompleted: false,
+    };
+  },
+  watch: {
+    isOpen(newId) {
+      if (newId) {
+        if (this.task) {
+          this.taskTitle = this.task.title;
+          this.taskCategory = this.task.category;
+          this.taskPriority = this.task.priority;
+          this.taskCompleted = this.task.completed;
+        } else {
+          this.resetForm();
+        }
+      }
+    },
+  },
   methods: {
     onWillDismiss() {
       this.$emit('on-dismiss');
@@ -109,20 +135,23 @@ export default {
       this.$emit('on-dismiss');
     },
     confirm() {
-      TaskService.save({
-        id: Math.floor(Math.random() * 1000000),
+      const taskData = {
+        id: this.task ? this.task.id : Math.floor(Math.random() * 1000000),
         title: this.taskTitle,
         category: this.taskCategory,
         priority: this.taskPriority,
         completed: this.taskCompleted,
-      });
+      };
 
-      this.taskTitle = '';
-      this.taskPriority = '';
-      this.taskCompleted = '';
-      this.taskCategory = '';
-
+      TaskService.save({taskData});
+      this.resetForm();
       this.$emit('on-confirm');
+    },
+    resetForm() {
+      this.taskTitle = '';
+      this.taskCategory = '';
+      this.taskPriority = '';
+      this.taskCompleted = false;
     },
   },
 };
