@@ -17,11 +17,15 @@
       <save-task
         :is-open="isModalOpen"
         title="Create new task"
-        @on-confirm="handleConfirm"
+        @on-confirm="updateTasks"
         @on-dismiss="closeModal"
       ></save-task>
 
-      <task-list :tasks="tasks"></task-list>
+      <task-list 
+        :tasks="tasks"
+        @on-toggle="handleToggle"
+        @on-delete="handleDelete"
+      ></task-list>
     </ion-content>
   </ion-page>
 </template>
@@ -60,9 +64,15 @@ export default {
     closeModal() {
       this.isModalOpen = false;
     },
-    handleConfirm(taskName: string) {
-      console.log('New task added:', taskName);
+    updateTasks() {
+      this.tasks = TaskService.getAll();
       this.closeModal();
+    },
+    handleToggle(taskId: number) {
+      TaskService.toggleCompletion(taskId);
+    },
+    handleDelete(taskId: number) {
+      TaskService.remove(taskId);
       this.tasks = TaskService.getAll();
     },
   },

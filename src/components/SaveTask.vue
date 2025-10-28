@@ -109,8 +109,6 @@ export default {
       this.$emit('on-dismiss');
     },
     confirm() {
-      this.$emit('on-confirm');
-
       TaskService.save({
         id: Math.floor(Math.random() * 1000000),
         title: this.taskTitle,
@@ -123,6 +121,8 @@ export default {
       this.taskPriority = '';
       this.taskCompleted = '';
       this.taskCategory = '';
+
+      this.$emit('on-confirm');
     },
   },
 };
