@@ -143,7 +143,7 @@ export default {
         completed: this.taskCompleted,
       };
 
-      TaskService.save({taskData});
+      TaskService.save(taskData);
       this.resetForm();
       this.$emit('on-confirm');
     },

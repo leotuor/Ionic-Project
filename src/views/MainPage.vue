@@ -71,6 +71,7 @@ export default {
     },
     handleToggle(taskId: number) {
       TaskService.toggleCompletion(taskId);
+      this.tasks = TaskService.getAll();
     },
     handleDelete(taskId: number) {
       TaskService.remove(taskId);

@@ -32,7 +32,7 @@ class TaskService {
 
     // If the task exists, update it; otherwise, add a new task
     if (existingTaskIndex !== -1) {
-      tasks[existingTaskIndex] = { ...tasks[existingTaskIndex], data };
+      tasks[existingTaskIndex] = data;
     } else {
       tasks.push(data);
     }

@@ -2,6 +2,7 @@
   <ion-grid>
     <ion-row>
       <ion-col size="12" size-md="6" size-lg="4" v-for="task in tasks" :key="task.id">
+        <p>{{ task  }}</p>
         <ion-card>
           <ion-card-header>
             <ion-card-title>{{ task.title }}</ion-card-title>
