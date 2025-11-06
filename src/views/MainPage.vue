@@ -14,6 +14,8 @@
 
       <ion-button @click="openModal" class='ion-margin' expand="block">Add task</ion-button>
 
+      <task-filter @on-filter="handleFilter"></task-filter>
+
       <save-task
         :is-open="isModalOpen"
         title="Create new task"
@@ -43,6 +45,7 @@ import {
 import SaveTask from '@/components/SaveTask.vue';
 import TaskList from '@/components/TaskList.vue';
 import TaskService from '@/services/TaskService';
+import TaskFilter from '@/components/TaskFilter.vue';
 </script>
 
 <script lang="ts">
@@ -51,11 +54,14 @@ export default {
     return {
       isModalOpen: false,
       tasks: [],
+      allTasks: [],
     };
   },
 
   created() {
-    this.tasks = TaskService.getAll();
+    const tasks = TaskService.getAll();
+    this.tasks = tasks;
+    this.allTasks = tasks;
   },
 
   methods: {
@@ -66,16 +72,45 @@ export default {
       this.isModalOpen = false;
     },
     handlePersist() {
-      this.tasks = TaskService.getAll();
+      const tasks = TaskService.getAll();
+      this.tasks = tasks;
+      this.allTasks = tasks;
       this.closeModal();
     },
     handleToggle(taskId: number) {
       TaskService.toggleCompletion(taskId);
-      this.tasks = TaskService.getAll();
+      const tasks = TaskService.getAll();
+      this.tasks = tasks;
+      this.allTasks = tasks;
     },
     handleDelete(taskId: number) {
       TaskService.remove(taskId);
-      this.tasks = TaskService.getAll();
+      const tasks = TaskService.getAll();
+      this.tasks = tasks;
+      this.allTasks = tasks;
+    },
+    handleFilter(filters: { searchTerm: string; category: string; priority: string }) {
+      let filteredTasks = this.allTasks;
+
+      if (filters.searchTerm) {
+        filteredTasks = filteredTasks.filter((task: Task) =>
+          task.title && task.title.toLowerCase().includes(filters.searchTerm.toLowerCase())
+        );
+      }
+
+      if (filters.category) {
+        filteredTasks = filteredTasks.filter(
+          (task: Task) => task.category === filters.category
+        );
+      }
+
+      if (filters.priority) {
+        filteredTasks = filteredTasks.filter(
+          (task: Task) => task.priority === filters.priority
+        );
+      }
+
+      this.tasks = filteredTasks;
     },
   },
 };
